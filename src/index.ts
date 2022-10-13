@@ -6,10 +6,12 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
+import { ask } from "./ask";
 import { askForNewStudent } from "./askForNewStudent";
 import { Course } from "./database/entities/Course";
 import { Student } from "./database/entities/Student";
 import { setupDatabase } from "./database/setupDatabase";
+import { editStudentName } from "./editStudentName";
 
 /**
  * App Variables
@@ -65,11 +67,23 @@ app.listen(PORT, async () => {
       };
     });
 
+    // Listar Tudo o que foi salvo
+
     studentsWithCourse.forEach(student => {
       console.log(
         `Aluno(a) ${student.name} matriculado(a) no curso ${student.course.name}`,
       );
     });
+
+    // Editar o nome de um aluno que já foi salvo no banco de dados
+
+    const shouldEditStudentName = await ask(
+      "Deseja editar algum(a) aluno(a)? y/n ",
+    );
+
+    if (shouldEditStudentName.match(/^y$/i)) {
+      await editStudentName();
+    }
   } catch (error) {
     console.log("Houston, we have a problem: ", error);
   }
