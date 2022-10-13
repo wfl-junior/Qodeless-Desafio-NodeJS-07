@@ -15,7 +15,9 @@ export async function editStudentName() {
         name: newStudentName,
       });
 
-      console.log(`Aluno(a) ${newStudentName} atualizado no banco de dados.`);
+      console.log(
+        `Aluno(a) ${studentToEdit} atualizado para ${newStudentName}.`,
+      );
     } else {
       console.log(`Aluno(a) ${studentToEdit} não encontrado.`);
     }
