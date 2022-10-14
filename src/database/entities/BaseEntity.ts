@@ -96,16 +96,16 @@ export class BaseEntity {
     const queryString = `${sql} LIMIT 1;`;
 
     const {
-      rows: [existingStudent],
+      rows: [existingEntity],
     } = await client.query(queryString, params);
 
-    if (!existingStudent) {
+    if (!existingEntity) {
       return null;
     }
 
-    const student = new this();
-    Object.assign(student, existingStudent);
-    return student;
+    const entity = new this();
+    Object.assign(entity, existingEntity);
+    return entity;
   }
 
   /**
@@ -116,13 +116,13 @@ export class BaseEntity {
     where: Partial<T>,
     newEntityData: Partial<T>,
   ): Promise<T> {
-    const course = await this.findOne(where);
+    const entity = await this.findOne(where);
 
-    if (!course) {
+    if (!entity) {
       return this.create(newEntityData);
     }
 
-    return course;
+    return entity;
   }
 
   /**
