@@ -8,7 +8,7 @@ export async function editStudentName() {
   );
 
   try {
-    const student = await Student.findOne(studentToEdit);
+    const student = await Student.findOne({ name: studentToEdit });
 
     if (student) {
       await student.update({

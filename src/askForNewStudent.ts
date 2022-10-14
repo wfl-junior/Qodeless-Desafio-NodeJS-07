@@ -9,14 +9,17 @@ export async function askForNewStudent() {
   );
 
   try {
-    const course = await Course.findOrCreate(studentCourseName);
+    const course = await Course.findOneOrCreate(
+      { name: studentCourseName },
+      { name: studentCourseName },
+    );
 
-    await Student.create({
+    const student = await Student.create({
       name: newStudentName,
       courseId: course.id,
     });
 
-    console.log(`Aluno(a) ${newStudentName} inserido no banco de dados.`);
+    console.log(`Aluno(a) ${student.name} inserido no banco de dados.`);
 
     const shouldAskAgain = await ask("Deseja inserir outro aluno? y/n ");
 
